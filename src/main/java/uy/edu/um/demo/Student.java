@@ -5,9 +5,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
+@Table(name="student")
 public class Student {
     @Id
     @Column(length = 16)
@@ -17,6 +19,12 @@ public class Student {
     private String mail;
     @Embedded
     private Email email;
+
     @ElementCollection
-    private List<String> subjects;
+    private Set<String> subjects;
+
+    public void schemaChangeSupport() {
+        if (mail != null && !mail.isEmpty() && mail.contains("@"))
+            email = new Email(mail.substring(0, mail.indexOf('@')), mail.substring(mail.indexOf('@')+1, mail.length()));
+    }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,18 +18,19 @@ public class StudentController {
     StudentRepository studentRepository;
 
     @PostMapping("/")
+    @Transactional
     public void createStudent(@RequestBody Student student) {
-        studentRepository.save(schemaChangeSupport(student));
+        student.schemaChangeSupport();
+        studentRepository.save(student);
     }
 
-    private Student schemaChangeSupport(Student student) {
-        if (student.getMail() != null && !student.getMail().isEmpty() && student.getMail().contains("@")) {
-            student.setEmail(new Email(
-                    student.getMail().substring(0, student.getMail().indexOf('@')),
-                    student.getMail().substring(student.getMail().indexOf('@')+1, student.getMail().length())
-                    ));
+    @PostMapping("/bulk")
+    @Transactional
+    public void create(@RequestBody MultipleStudentRequest request) {
+        for (Student student : request.getStudents()) {
+            student.schemaChangeSupport();
+            studentRepository.save(student);
         }
-        return student;
     }
 
     @PostMapping("/plano/")
@@ -56,4 +58,10 @@ public class StudentController {
 
         throw new RuntimeException("El estudiante no existe");
     }
+
+    @GetMapping("/find_by_first_name/{name}")
+    public List<Student> findByFirstName(@PathVariable("name") String name) {
+        return studentRepository.findByFirstName(name);
+    }
+
 }
