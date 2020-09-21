@@ -15,8 +15,8 @@ public class ShowroomsController {
 
     @PostMapping("/")
     public void create(@RequestBody ShowRoom showroom) {
-        for (Car car : showroom.getCars())
-            carRepository.save(car);
+        /*for (Car car : showroom.getCars())
+            carRepository.save(car);*/
         repository.save(showroom);
     }
 }

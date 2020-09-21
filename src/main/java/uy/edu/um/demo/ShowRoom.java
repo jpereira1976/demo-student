@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Data
@@ -19,7 +16,12 @@ public class ShowRoom {
     private Integer id;
     private String manager;
     private String location;
-    @OneToMany
-    @JoinColumn(name="showroom_id")
+    @ManyToMany(cascade = CascadeType.ALL)
+    //@JoinColumn(name="showroom_id")
+    @JoinTable
+            (name="show_room_car",
+                    joinColumns = @JoinColumn(name="showroom_id")
+            )
+    @OrderColumn(name="car_idx")
     List<Car> cars;
 }

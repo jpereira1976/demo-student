@@ -12,5 +12,11 @@ public class MainRestClient {
                 = template.getForEntity("http://localhost:8080/students/2", String.class);
 
         System.out.println(new ObjectMapper().readValue(response.getBody(), Student.class));
+
+        ResponseEntity<Student> response2
+                = template.getForEntity("http://localhost:8080/students/2", Student.class);
+
+        System.out.println(response2.getBody());
+
     }
 }
