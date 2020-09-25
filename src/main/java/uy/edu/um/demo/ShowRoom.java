@@ -16,7 +16,7 @@ public class ShowRoom {
     private Integer id;
     private String manager;
     private String location;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //@JoinColumn(name="showroom_id")
     @JoinTable
             (name="show_room_car",
