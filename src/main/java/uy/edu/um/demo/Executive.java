@@ -9,6 +9,6 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue(value="EXECUTIVE")
 @Data
-public class Executive extends Employee {
+public class Executive extends OneEmployee {
     String role;
 }

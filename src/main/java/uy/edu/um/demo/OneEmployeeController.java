@@ -6,18 +6,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/oneemployee")
 @AllArgsConstructor
-public class EmployeeController {
-    EmployeeRepository employeeRepository;
+public class OneEmployeeController {
+    OneEmployeeRepository employeeRepository;
 
     @PostMapping("/")
-    public void save(@RequestBody Employee employee) {
+    public void save(@RequestBody OneEmployee employee) {
         employeeRepository.save(employee);
     }
 
     @GetMapping("/query")
-    public List<Employee> query(@RequestParam("name") String name) {
+    public List<OneEmployee> query(@RequestParam("name") String name) {
         return employeeRepository.customFindByName(name);
     }
 }

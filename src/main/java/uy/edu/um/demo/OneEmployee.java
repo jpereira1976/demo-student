@@ -17,10 +17,10 @@ import javax.persistence.*;
         include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = Employee.class, name = "employee"),
+    @JsonSubTypes.Type(value = OneEmployee.class, name = "employee"),
     @JsonSubTypes.Type(value = Executive.class, name = "executive")
 })
-public class Employee {
+public class OneEmployee {
     @Id
     private Integer id;
     private String name;

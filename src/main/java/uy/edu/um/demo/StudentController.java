@@ -41,13 +41,21 @@ public class StudentController {
     }
 
     @GetMapping("/")
-    public List<Student> listStudents() {
-        List<Student> result = new ArrayList<>();
-        Iterator<Student> studentIterator = studentRepository.findAll().iterator();
-        while (studentIterator.hasNext())
-            result.add(studentIterator.next());
+    public List<Student> listStudents(@RequestParam(name="firstName",required = false) String firstName,
+                                      @RequestParam (name="lastName",required = false) String lastName) {
+        if (firstName != null || lastName != null)
+           return studentRepository.findAll(StudentSpecification.builder()
+                   .firstName(firstName)
+                   .lastName(lastName)
+                   .build());
+        else {
+            List<Student> result = new ArrayList<>();
+            Iterator<Student> studentIterator = studentRepository.findAll().iterator();
+            while (studentIterator.hasNext())
+                result.add(studentIterator.next());
 
-        return result;
+            return result;
+        }
     }
 
     @GetMapping("/{id}")
@@ -63,5 +71,6 @@ public class StudentController {
     public List<Student> findByFirstName(@PathVariable("name") String name) {
         return studentRepository.findByFirstName(name);
     }
+
 
 }
